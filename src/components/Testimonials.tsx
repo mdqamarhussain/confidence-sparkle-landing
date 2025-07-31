@@ -84,12 +84,14 @@ const testimonials = [
 export const Testimonials = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [flippedCard, setFlippedCard] = useState(false);
 
   useEffect(() => {
     if (!isAutoPlaying) return;
     
     const interval = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+      setFlippedCard(false); // Reset flip when changing testimonial
     }, 5000);
 
     return () => clearInterval(interval);
@@ -98,6 +100,7 @@ export const Testimonials = () => {
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
     setIsAutoPlaying(false);
+    setFlippedCard(false);
   };
 
   const prevTestimonial = () => {
@@ -108,11 +111,22 @@ export const Testimonials = () => {
   const current = testimonials[currentTestimonial];
 
   return (
-    <section className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 bg-success-orange/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 border border-success-orange/20">
-            <Star className="w-4 h-4 text-success-orange animate-pulse-soft" />
+    <section className="py-20 bg-muted/30 relative overflow-hidden">
+      {/* Sparkle decorations */}
+      <div className="absolute top-16 left-16">
+        <Star className="w-8 h-8 text-success-orange/30 sparkle" />
+      </div>
+      <div className="absolute top-32 right-32">
+        <Star className="w-6 h-6 text-confidence-blue/30 sparkle" />
+      </div>
+      <div className="absolute bottom-20 left-1/3">
+        <Star className="w-4 h-4 text-growth-green/30 sparkle" />
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-16 scroll-reveal">
+          <div className="inline-flex items-center gap-2 bg-success-orange/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6 border border-success-orange/20 bounce-hover">
+            <Star className="w-4 h-4 text-success-orange animate-pulse-soft sparkle" />
             <span className="text-success-orange text-sm font-medium">Parent Stories</span>
           </div>
           
@@ -127,20 +141,37 @@ export const Testimonials = () => {
           </p>
         </div>
 
-        {/* Main Testimonial Card */}
-        <div className="max-w-4xl mx-auto mb-12">
-          <Card className="relative overflow-hidden bg-white shadow-secondary border border-card-border">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-success-orange/10 to-transparent"></div>
-            <div className="absolute top-4 right-4">
-              <Quote className="w-8 h-8 text-success-orange/30" />
+        {/* Enhanced Main Testimonial Card with Flip Effect */}
+        <div className="max-w-4xl mx-auto mb-12 scroll-reveal">
+          <Card 
+            className="relative overflow-hidden bg-white shadow-secondary border border-card-border cursor-pointer scale-hover"
+            onClick={() => setFlippedCard(!flippedCard)}
+          >
+            {/* Sparkle effects around card */}
+            <div className="absolute -top-2 -left-2">
+              <Star className="w-6 h-6 text-success-orange/50 sparkle" />
+            </div>
+            <div className="absolute -top-2 -right-2">
+              <Star className="w-4 h-4 text-confidence-blue/50 sparkle" />
+            </div>
+            <div className="absolute -bottom-2 -left-2">
+              <Star className="w-4 h-4 text-growth-green/50 sparkle" />
+            </div>
+            <div className="absolute -bottom-2 -right-2">
+              <Star className="w-6 h-6 text-success-orange/50 sparkle" />
             </div>
             
-            <div className="p-8">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-success-orange/10 to-transparent geometric-float"></div>
+            <div className="absolute top-4 right-4">
+              <Quote className="w-8 h-8 text-success-orange/30 sparkle" />
+            </div>
+            
+            <div className={`p-8 transition-all duration-500 ${flippedCard ? 'opacity-0 absolute inset-0' : 'opacity-100'}`}>
               <div className="flex flex-col md:flex-row gap-6">
                 {/* Parent & Child Info */}
                 <div className="flex-shrink-0 text-center md:text-left">
-                  <div className="w-20 h-20 bg-success-orange/10 rounded-full flex items-center justify-center mx-auto md:mx-0 mb-4 animate-pulse-soft">
-                    <span className="text-2xl font-bold text-success-orange">
+                  <div className="w-20 h-20 bg-success-orange/10 rounded-full flex items-center justify-center mx-auto md:mx-0 mb-4 animate-pulse-soft scale-hover">
+                    <span className="text-2xl font-bold text-success-orange sparkle">
                       {current.childName[0]}
                     </span>
                   </div>
@@ -150,12 +181,12 @@ export const Testimonials = () => {
                   </p>
                   <p className="text-muted-foreground text-xs">{current.location}</p>
                   
-                  {/* Rating */}
+                  {/* Enhanced Rating */}
                   <div className="flex justify-center md:justify-start gap-1 mt-3">
                     {[...Array(5)].map((_, i) => (
                       <Star 
                         key={i} 
-                        className="w-4 h-4 fill-success-orange text-success-orange" 
+                        className="w-4 h-4 fill-success-orange text-success-orange sparkle" 
                       />
                     ))}
                   </div>
@@ -170,7 +201,7 @@ export const Testimonials = () => {
                   {/* Before/After Improvement */}
                   <div className="bg-muted/50 rounded-lg p-4 mb-4 border border-card-border">
                     <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                      <Star className="w-4 h-4 text-success-orange" />
+                      <Star className="w-4 h-4 text-success-orange sparkle" />
                       Amazing Transformation
                     </h4>
                     <p className="text-sm text-muted-foreground leading-relaxed">
@@ -178,17 +209,44 @@ export const Testimonials = () => {
                     </p>
                   </div>
                   
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-                      <h5 className="font-medium text-red-800 text-sm mb-1">Before Scoreazy:</h5>
-                      <p className="text-red-700 text-xs">{current.beforeAfter.before}</p>
-                    </div>
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                      <h5 className="font-medium text-green-800 text-sm mb-1">After Scoreazy:</h5>
-                      <p className="text-green-700 text-xs">{current.beforeAfter.after}</p>
+                  <div className="text-center">
+                    <p className="text-sm text-muted-foreground mb-2">Click card to see detailed before/after comparison</p>
+                    <div className="inline-flex items-center gap-2 text-xs text-confidence-blue animate-pulse-soft">
+                      <Star className="w-3 h-3" />
+                      <span>Flip for more details</span>
+                      <Star className="w-3 h-3" />
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+            
+            {/* Flipped Side - Detailed Before/After */}
+            <div className={`p-8 transition-all duration-500 ${flippedCard ? 'opacity-100' : 'opacity-0 absolute inset-0 pointer-events-none'}`}>
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-foreground mb-2">
+                  {current.childName}'s Amazing Journey
+                </h3>
+                <p className="text-muted-foreground">See the incredible transformation</p>
+              </div>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="bg-red-50 border-2 border-red-200 rounded-xl p-6 text-center">
+                  <h4 className="font-bold text-red-800 text-lg mb-3 flex items-center justify-center gap-2">
+                    😔 Before Scoreazy
+                  </h4>
+                  <p className="text-red-700">{current.beforeAfter.before}</p>
+                </div>
+                <div className="bg-green-50 border-2 border-green-200 rounded-xl p-6 text-center">
+                  <h4 className="font-bold text-green-800 text-lg mb-3 flex items-center justify-center gap-2">
+                    🌟 After Scoreazy
+                  </h4>
+                  <p className="text-green-700">{current.beforeAfter.after}</p>
+                </div>
+              </div>
+              
+              <div className="text-center mt-6">
+                <p className="text-sm text-muted-foreground">Click again to return to main testimonial</p>
               </div>
             </div>
           </Card>
@@ -233,32 +291,32 @@ export const Testimonials = () => {
           </Button>
         </div>
 
-        {/* Summary Stats */}
-        <div className="bg-white rounded-2xl p-8 shadow-soft border border-card-border">
+        {/* Enhanced Summary Stats */}
+        <div className="bg-white rounded-2xl p-8 shadow-soft border border-card-border scroll-reveal">
           <div className="grid md:grid-cols-4 gap-6 text-center">
-            <div className="group">
-              <div className="text-3xl font-bold text-success-orange mb-2 group-hover:scale-110 transition-transform">
+            <div className="group scale-hover">
+              <div className="text-3xl font-bold text-success-orange mb-2 group-hover:scale-110 transition-transform sparkle">
                 500+
               </div>
               <p className="text-muted-foreground text-sm">Happy Families</p>
             </div>
             
-            <div className="group">
-              <div className="text-3xl font-bold text-confidence-blue mb-2 group-hover:scale-110 transition-transform">
+            <div className="group scale-hover">
+              <div className="text-3xl font-bold text-confidence-blue mb-2 group-hover:scale-110 transition-transform sparkle">
                 4.9/5
               </div>
               <p className="text-muted-foreground text-sm">Parent Rating</p>
             </div>
             
-            <div className="group">
-              <div className="text-3xl font-bold text-growth-green mb-2 group-hover:scale-110 transition-transform">
+            <div className="group scale-hover">
+              <div className="text-3xl font-bold text-growth-green mb-2 group-hover:scale-110 transition-transform sparkle">
                 98%
               </div>
               <p className="text-muted-foreground text-sm">Completion Rate</p>
             </div>
             
-            <div className="group">
-              <div className="text-3xl font-bold text-success-orange mb-2 group-hover:scale-110 transition-transform">
+            <div className="group scale-hover">
+              <div className="text-3xl font-bold text-success-orange mb-2 group-hover:scale-110 transition-transform sparkle">
                 30 days
               </div>
               <p className="text-muted-foreground text-sm">Money Back Guarantee</p>
