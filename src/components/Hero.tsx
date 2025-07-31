@@ -24,7 +24,7 @@ const ConfidenceMeter = () => {
     { name: "Celebration", progress: 100, color: "success-orange" }
   ];
   return (
-    <div className="relative bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/30 shadow-glow">
+    <div className="relative bg-gradient-to-br from-primary/90 to-confidence-blue/80 backdrop-blur-sm rounded-xl p-6 border border-white/40 shadow-glow">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
           <img src={mascot} alt="Confidence Mascot" className="w-6 h-6 wobble-hover" />
@@ -90,7 +90,7 @@ export const Hero = () => {
     <section id="home" className="relative min-h-screen flex items-center gradient-hero-enhanced overflow-hidden">
       {/* Enhanced Background Elements */}
       <FloatingShape className="top-10 left-10">
-        <div className="w-20 h-20 bg-white/10 rounded-lg rotate-45 morphing-shape"></div>
+        <div className="w-20 h-20 bg-white/10 rounded-lg morphing-shape"></div>
       </FloatingShape>
       <FloatingShape className="top-20 right-20">
         <div className="w-16 h-16 bg-success-orange/20 rounded-full"></div>
@@ -145,7 +145,7 @@ export const Hero = () => {
               <Button 
                 variant="outline" 
                 size="xl"
-                className="border-2 border-white/50 text-white hover:bg-white/20 text-xl px-12 py-6 backdrop-blur-sm scale-hover shadow-xl"
+                className="border-2 border-white text-primary bg-white/90 hover:bg-white hover:scale-105 text-xl px-12 py-6 backdrop-blur-sm scale-hover shadow-xl font-bold"
               >
                 <Play className="w-6 h-6" />
                 Watch Preview
@@ -208,7 +208,7 @@ export const Hero = () => {
             </div>
             
             {/* Enhanced floating confidence meter */}
-            <div className="confidence-meter absolute -bottom-8 -left-8 w-80 animate-float-slow shadow-2xl">
+            <div className="confidence-meter absolute -bottom-6 -left-6 w-80 animate-float-slow shadow-2xl z-20 bg-white/95 backdrop-blur-lg rounded-xl p-1 border-2 border-white/50">
               <ConfidenceMeter />
             </div>
           </div>
