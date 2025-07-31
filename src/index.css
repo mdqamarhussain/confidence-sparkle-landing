@@ -2,39 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Scoreazy Confidence Building Course Design System 
+Playful, educational colors perfect for children and trusted by parents
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
+    /* Base colors */
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 218 15% 25%;
 
+    /* Scoreazy brand colors - converted to HSL */
+    --confidence-blue: 195 85% 64%;    /* #4FC3F7 - soft blue */
+    --success-orange: 33 87% 64%;      /* #FFB74D - warm orange */  
+    --growth-green: 120 39% 65%;       /* #81C784 - gentle green */
+    
+    /* Semantic color tokens */
+    --primary: 195 85% 64%;            /* confidence blue */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 195 85% 58%;
+    
+    --secondary: 33 87% 64%;           /* success orange */
+    --secondary-foreground: 0 0% 100%;
+    --secondary-hover: 33 87% 58%;
+    
+    --accent: 120 39% 65%;             /* growth green */
+    --accent-foreground: 0 0% 100%;
+    --accent-hover: 120 39% 59%;
+
+    /* UI colors */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 218 15% 25%;
+    --card-border: 0 0% 94%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 218 15% 25%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 195 25% 96%;
+    --muted-foreground: 218 12% 50%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 0 0% 90%;
+    --input: 0 0% 96%;
+    --ring: 195 85% 64%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(var(--confidence-blue)), hsl(var(--success-orange)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--confidence-blue) / 0.05), hsl(var(--growth-green) / 0.05));
+    --gradient-button: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+    
+    /* Shadows with brand colors */
+    --shadow-primary: 0 4px 20px hsl(var(--confidence-blue) / 0.3);
+    --shadow-secondary: 0 4px 20px hsl(var(--success-orange) / 0.3);
+    --shadow-accent: 0 4px 20px hsl(var(--growth-green) / 0.3);
+    --shadow-soft: 0 2px 10px hsl(220 13% 69% / 0.1);
+
+    /* Animation variables */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --radius: 0.5rem;
 
@@ -100,6 +128,86 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    line-height: 1.6;
+  }
+}
+
+@layer components {
+  /* Playful animation classes */
+  .bounce-gentle {
+    animation: bounce-gentle 2s infinite;
+  }
+  
+  .float-animation {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .pulse-soft {
+    animation: pulse-soft 2s infinite;
+  }
+  
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+  
+  .gradient-button {
+    background: var(--gradient-button);
+  }
+  
+  .shadow-primary {
+    box-shadow: var(--shadow-primary);
+  }
+  
+  .shadow-secondary {
+    box-shadow: var(--shadow-secondary);
+  }
+  
+  .shadow-accent {
+    box-shadow: var(--shadow-accent);
+  }
+  
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+}
+
+@layer utilities {
+  @keyframes bounce-gentle {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-10px) rotate(1deg); }
+    66% { transform: translateY(5px) rotate(-1deg); }
+  }
+  
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+  
+  @keyframes scale-in {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  
+  @keyframes slide-up {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
   }
 }
