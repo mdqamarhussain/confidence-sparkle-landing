@@ -232,15 +232,23 @@ export const CourseCurriculum = () => {
           </div>
         </Card>
         
-        <div className="text-center mt-12">
-          <Button variant="enroll" size="xl" className="group">
-            <PartyPopper className="w-5 h-5 group-hover:animate-bounce-gentle" />
-            Start Your Child's Confidence Journey - ₹1,999
-          </Button>
-          <p className="text-muted-foreground text-sm mt-3">
-            30-day happiness guarantee • Expert child psychologist designed
-          </p>
-        </div>
+<div className="text-center mt-12">
+  <Button variant="enroll" size="xl" className="group">
+    <PartyPopper className="w-5 h-5 group-hover:animate-bounce-gentle" />
+    
+    {/* This text will show on small screens (mobile) and be hidden on 'sm' screens and larger */}
+    <span className="sm:hidden">Enroll Now - ₹1,999</span>
+    
+    {/* This text will be hidden by default and show on 'sm' screens and larger */}
+    <span className="hidden sm:inline">
+      Start Your Child's Confidence Journey - ₹1,999
+    </span>
+
+  </Button>
+  <p className="text-muted-foreground text-sm mt-3">
+    30-day happiness guarantee • Expert child psychologist designed
+  </p>
+</div>
       </div>
     </section>
   );
