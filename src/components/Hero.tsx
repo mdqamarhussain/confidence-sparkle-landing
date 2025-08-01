@@ -1,222 +1,196 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Star, Trophy, Heart, Sparkles, Play, Zap } from "lucide-react";
+import { Star, Trophy, Heart, Sparkles, Play, Users, Clock, Award, CheckCircle, ArrowRight } from "lucide-react";
 import heroImage from "@/assets/hero-confident-kids.jpg";
 import mascot from "@/assets/confidence-mascot.png";
 
-// Floating Geometric Shape Component
-const FloatingShape = ({ className, children }: { className: string, children: React.ReactNode }) => (
-  <div className={`absolute pointer-events-none ${className}`}>
-    <div className="geometric-float">
-      {children}
+// Stats Card Component
+const StatCard = ({ icon: Icon, number, label, delay = 0 }: { 
+  icon: any, number: string, label: string, delay?: number 
+}) => (
+  <div 
+    className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/50 hover:shadow-2xl transition-all duration-300 hover:scale-105 animate-slide-up"
+    style={{ animationDelay: `${delay}s` }}
+  >
+    <div className="flex items-center gap-4">
+      <div className="w-12 h-12 bg-gradient-to-br from-primary to-confidence-blue rounded-xl flex items-center justify-center">
+        <Icon className="w-6 h-6 text-white" />
+      </div>
+      <div>
+        <div className="text-2xl font-black text-gray-900">{number}</div>
+        <div className="text-sm font-medium text-gray-600">{label}</div>
+      </div>
     </div>
   </div>
 );
 
-// Enhanced Confidence Meter with Click Interaction
-const ConfidenceMeter = () => {
-  const [activeWeek, setActiveWeek] = useState(0);
-  
-  const weeks = [
-    { name: "Self-Discovery", progress: 25, color: "confidence-blue" },
-    { name: "Communication", progress: 50, color: "success-orange" },
-    { name: "Problem-Solving", progress: 75, color: "growth-green" },
-    { name: "Celebration", progress: 100, color: "success-orange" }
-  ];
-  return (
-    <div className="relative bg-gradient-to-br from-primary/90 to-confidence-blue/80 backdrop-blur-sm rounded-xl p-6 border border-white/40 shadow-glow">
-      <div className="flex items-center gap-2 mb-4">
-        <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-          <img src={mascot} alt="Confidence Mascot" className="w-6 h-6 wobble-hover" />
-        </div>
-        <h3 className="text-white text-lg font-bold">
-          Your Child's Confidence Journey
-        </h3>
-        <Sparkles className="w-5 h-5 text-white sparkle" />
-      </div>
-      
-      <div className="space-y-4">
-        {weeks.map((week, index) => (
-          <div 
-            key={index}
-            className="cursor-pointer group"
-            onClick={() => setActiveWeek(index)}
-          >
-            <div className="flex items-center justify-between text-white text-sm mb-2">
-              <span className="group-hover:text-success-orange transition-colors">
-                Week {index + 1}: {week.name}
-              </span>
-              <span className={`bg-${week.color}/30 px-3 py-1 rounded-full font-bold text-white shadow-glow ${
-                activeWeek === index ? 'pulse-glow' : ''
-              }`}>
-                {week.progress}%
-              </span>
-            </div>
-            <div 
-              className="w-full bg-white/20 rounded-full h-4 overflow-hidden cursor-pointer group-hover:h-5 transition-all duration-300"
-              data-progress={week.progress}
-            >
-              <div 
-                className={`progress-fill bg-gradient-to-r from-white to-${week.color} rounded-full h-full transition-all duration-1000 ease-out ${
-                  activeWeek === index ? 'animate-pulse-soft glow-effect' : ''
-                }`}
-                style={{ width: activeWeek >= index ? `${week.progress}%` : '0%' }}
-              ></div>
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      <div className="mt-4 text-center">
-        <div className="text-xs text-white/80">Click weeks to see progress!</div>
-      </div>
+// Feature Highlight Component
+const FeatureHighlight = ({ icon: Icon, title, description }: { 
+  icon: any, title: string, description: string 
+}) => (
+  <div className="flex items-start gap-4 group">
+    <div className="w-10 h-10 bg-gradient-to-br from-success-orange to-growth-green rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+      <Icon className="w-5 h-5 text-white" />
     </div>
-  );
-};
-
-const FloatingIcon = ({ Icon, className, delay = 0 }: { Icon: any, className: string, delay?: number }) => (
-  <div 
-    className={`absolute pointer-events-none animate-float ${className}`}
-    style={{ animationDelay: `${delay}s` }}
-  >
-    <div className="bg-white/10 backdrop-blur-sm rounded-full p-4 border border-white/20 shadow-glow wobble-hover">
-      <Icon className="w-8 h-8 text-white sparkle" />
+    <div>
+      <h4 className="font-bold text-gray-900 mb-1">{title}</h4>
+      <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
     </div>
   </div>
 );
 
 export const Hero = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center gradient-hero-enhanced overflow-hidden">
-      {/* Enhanced Background Elements */}
-      <FloatingShape className="top-10 left-10">
-        <div className="w-20 h-20 bg-white/10 rounded-lg morphing-shape"></div>
-      </FloatingShape>
-      <FloatingShape className="top-20 right-20">
-        <div className="w-16 h-16 bg-success-orange/20 rounded-full"></div>
-      </FloatingShape>
-      <FloatingShape className="bottom-20 left-20">
-        <div className="w-12 h-12 bg-growth-green/20 rounded-lg"></div>
-      </FloatingShape>
-      <FloatingShape className="bottom-40 right-40">
-        <div className="w-14 h-14 bg-confidence-blue/20 rounded-full morphing-shape"></div>
-      </FloatingShape>
-      
-      {/* Floating Icons with Enhanced Animation */}
-      <FloatingIcon Icon={Star} className="top-20 left-10" delay={0} />
-      <FloatingIcon Icon={Trophy} className="top-32 right-20" delay={1} />
-      <FloatingIcon Icon={Heart} className="bottom-32 left-20" delay={2} />
-      <FloatingIcon Icon={Sparkles} className="bottom-20 right-10" delay={0.5} />
-      <FloatingIcon Icon={Zap} className="top-1/2 left-8" delay={1.5} />
-      
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Left Content - Enhanced Visibility */}
-          <div className="text-center lg:text-left scroll-reveal space-y-8">
-            <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/30 shadow-glow bounce-hover">
-              <Star className="w-5 h-5 text-white animate-sparkle" />
-              <span className="text-white text-lg font-bold">Ages 6-11 • Expert Designed</span>
-              <Trophy className="w-5 h-5 text-white animate-bounce-gentle" />
+    <section id="home" className="relative min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50 overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Floating Circles */}
+        <div className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-br from-primary/20 to-confidence-blue/20 rounded-full animate-float-slow"></div>
+        <div className="absolute top-40 right-20 w-24 h-24 bg-gradient-to-br from-success-orange/20 to-growth-green/20 rounded-full animate-float"></div>
+        <div className="absolute bottom-32 left-20 w-20 h-20 bg-gradient-to-br from-growth-green/20 to-primary/20 rounded-full animate-float-fast"></div>
+        
+        {/* Geometric Shapes */}
+        <div className="absolute top-1/4 right-10 w-16 h-16 bg-gradient-to-br from-success-orange/30 to-primary/30 rounded-lg rotate-12 animate-bounce-gentle"></div>
+        <div className="absolute bottom-1/4 right-1/3 w-12 h-12 bg-gradient-to-br from-confidence-blue/30 to-growth-green/30 rounded-full animate-pulse-soft"></div>
+      </div>
+
+      <div className="container mx-auto px-4 py-16 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-16 items-center min-h-[80vh]">
+          {/* Left Content */}
+          <div className={`space-y-8 ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}>
+            {/* Badge */}
+            <div className="inline-flex items-center gap-3 bg-gradient-to-r from-primary/10 to-confidence-blue/10 backdrop-blur-sm rounded-full px-6 py-3 border border-primary/20">
+              <Star className="w-5 h-5 text-primary animate-sparkle" />
+              <span className="text-primary font-bold">Ages 6-11 • Expert Designed</span>
+              <Trophy className="w-5 h-5 text-success-orange" />
             </div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-black text-white mb-8 leading-tight animate-slide-up drop-shadow-lg">
-              Build Your Child's
-              <span className="block bg-gradient-to-r from-white via-success-orange to-growth-green bg-clip-text text-transparent animate-pulse-soft">
-                Confidence
-              </span>
-              in Just 4 Weeks!
-            </h1>
-            
-            <p className="text-2xl md:text-3xl lg:text-4xl text-white/95 mb-10 leading-relaxed animate-slide-up font-semibold drop-shadow-md" style={{ animationDelay: '0.2s' }}>
-              Help your child develop unshakeable self-confidence with our fun, 
-              interactive program designed by child psychologists.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-6 mb-10 animate-slide-up" style={{ animationDelay: '0.4s' }}>
+            {/* Main Headline */}
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-black text-gray-900 leading-tight">
+                Transform Your Child's
+                <span className="block bg-gradient-to-r from-primary via-success-orange to-growth-green bg-clip-text text-transparent">
+                  Confidence
+                </span>
+                in Just 4 Weeks
+              </h1>
+              
+              <p className="text-xl text-gray-700 leading-relaxed max-w-lg">
+                A proven step-by-step program designed by child psychologists to help your child build unshakeable self-confidence and academic success.
+              </p>
+            </div>
+
+            {/* Feature Highlights */}
+            <div className="space-y-4">
+              <FeatureHighlight 
+                icon={Clock}
+                title="Quick 15-min Daily Sessions"
+                description="Perfect for busy families - just 15 minutes a day to see real results"
+              />
+              <FeatureHighlight 
+                icon={Award}
+                title="Expert-Designed Curriculum"
+                description="Created by certified child psychologists with proven methods"
+              />
+              <FeatureHighlight 
+                icon={Users}
+                title="Parent & Child Activities"
+                description="Strengthen your bond while building confidence together"
+              />
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
               <Button 
                 variant="enroll" 
                 size="xl"
-                className="group text-xl px-12 py-6 pulse-glow scale-hover shadow-2xl"
+                className="group text-lg px-8 py-4 shadow-xl hover:shadow-2xl"
               >
-                <Trophy className="w-6 h-6 group-hover:animate-bounce-gentle" />
-                Enroll for ₹1,999
-                <Sparkles className="w-6 h-6 group-hover:animate-sparkle" />
+                <Trophy className="w-5 h-5 group-hover:animate-bounce-gentle" />
+                Start Building Confidence - ₹1,999
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button 
                 variant="outline" 
                 size="xl"
-                className="border-2 border-white text-primary bg-white/90 hover:bg-white hover:scale-105 text-xl px-12 py-6 backdrop-blur-sm scale-hover shadow-xl font-bold"
+                className="border-2 border-primary text-primary hover:bg-primary hover:text-white text-lg px-8 py-4"
               >
-                <Play className="w-6 h-6" />
+                <Play className="w-5 h-5" />
                 Watch Preview
               </Button>
             </div>
-            
-            <div className="flex items-center justify-center lg:justify-start gap-8 text-white/90 text-lg animate-slide-up" style={{ animationDelay: '0.6s' }}>
-              <div className="flex items-center gap-3 bounce-hover">
-                <div className="w-3 h-3 bg-growth-green rounded-full animate-pulse-soft shadow-glow"></div>
-                <span className="font-semibold">30-day guarantee</span>
+
+            {/* Trust Indicators */}
+            <div className="flex items-center gap-8 text-sm">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-growth-green" />
+                <span className="text-gray-600">30-day guarantee</span>
               </div>
-              <div className="flex items-center gap-3 bounce-hover">
-                <div className="w-3 h-3 bg-success-orange rounded-full animate-pulse-soft shadow-glow"></div>
-                <span className="font-semibold">Expert designed</span>
-              </div>
-              <div className="flex items-center gap-3 bounce-hover">
-                <div className="w-3 h-3 bg-white rounded-full animate-pulse-soft shadow-glow"></div>
-                <span className="font-semibold">500+ happy families</span>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-growth-green" />
+                <span className="text-gray-600">500+ happy families</span>
               </div>
             </div>
           </div>
           
-          {/* Right Content - Enhanced with Mascot */}
-          <div className="relative animate-slide-up scroll-reveal" style={{ animationDelay: '0.3s' }}>
-            {/* Main hero image with enhanced effects */}
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 group">
+          {/* Right Content */}
+          <div className={`relative ${isVisible ? 'animate-slide-up' : 'opacity-0'}`} style={{ animationDelay: '0.2s' }}>
+            {/* Main Image */}
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl group">
               <img 
                 src={heroImage} 
-                alt="Confident children raising hands and celebrating achievements"
+                alt="Confident children celebrating achievements"
                 className="w-full h-auto transform group-hover:scale-105 transition-smooth"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
               
               {/* Floating Mascot */}
-              <div className="absolute top-4 right-4 w-16 h-16 bg-white/90 rounded-full p-2 shadow-glow animate-bounce-gentle">
+              <div className="absolute top-6 right-6 w-16 h-16 bg-white rounded-full p-3 shadow-lg animate-bounce-gentle">
                 <img 
                   src={mascot} 
                   alt="Confidence Mascot" 
-                  className="w-full h-full object-contain wobble-hover cursor-pointer"
-                  onClick={() => {
-                    // Add a fun interaction
-                    const element = document.querySelector('.confidence-meter') as HTMLElement;
-                    if (element) {
-                      element.style.transform = 'scale(1.05)';
-                      setTimeout(() => {
-                        element.style.transform = 'scale(1)';
-                      }, 200);
-                    }
-                  }}
+                  className="w-full h-full object-contain"
                 />
               </div>
               
-              {/* Sparkle effects */}
-              <div className="absolute top-8 left-8">
-                <Sparkles className="w-6 h-6 text-white sparkle" />
-              </div>
-              <div className="absolute bottom-8 right-8">
-                <Star className="w-8 h-8 text-success-orange sparkle" />
+              {/* Success Badge */}
+              <div className="absolute bottom-6 left-6 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-growth-green to-success-orange rounded-full flex items-center justify-center">
+                    <Star className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <div className="text-sm font-bold text-gray-900">98% Success Rate</div>
+                    <div className="text-xs text-gray-600">Children show improvement</div>
+                  </div>
+                </div>
               </div>
             </div>
-            
-            {/* Enhanced floating confidence meter */}
-            <div className="confidence-meter absolute -bottom-6 -left-6 w-80 animate-float-slow shadow-2xl z-20 bg-white/95 backdrop-blur-lg rounded-xl p-1 border-2 border-white/50">
-              <ConfidenceMeter />
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 gap-4 mt-8">
+              <StatCard 
+                icon={Users}
+                number="500+"
+                label="Happy Families"
+                delay={0.4}
+              />
+              <StatCard 
+                icon={Award}
+                number="98%"
+                label="Success Rate"
+                delay={0.6}
+              />
             </div>
           </div>
         </div>
       </div>
-      
-      {/* Subtle wave decoration at bottom */}
-      <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-background to-transparent"></div>
     </section>
   );
 };
