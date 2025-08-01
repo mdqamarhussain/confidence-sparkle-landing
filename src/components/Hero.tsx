@@ -110,9 +110,9 @@ export const Hero = () => {
       <FloatingIcon Icon={Zap} className="top-1/2 left-8" delay={1.5} />
       
       <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left Content - Enhanced Visibility */}
-          <div className="text-center lg:text-left scroll-reveal">
+          <div className="text-center lg:text-left scroll-reveal space-y-8">
             <div className="inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm rounded-full px-6 py-3 mb-8 border border-white/30 shadow-glow bounce-hover">
               <Star className="w-5 h-5 text-white animate-sparkle" />
               <span className="text-white text-lg font-bold">Ages 6-11 • Expert Designed</span>
