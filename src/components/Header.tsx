@@ -61,9 +61,7 @@ export const Header = () => {
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className={`font-medium transition-colors hover:text-confidence-blue relative group ${
-                    isScrolled ? 'text-foreground' : 'text-white'
-                  } scroll-reveal stagger-${index + 1}`}
+                  className={`font-medium text-foreground transition-colors hover:text-confidence-blue relative group scroll-reveal stagger-${index + 1}`}
                 >
                   {item.name}
                   <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-confidence-blue transition-all duration-300 group-hover:w-full"></div>
@@ -88,7 +86,7 @@ export const Header = () => {
             <Button
               variant="ghost"
               size="icon"
-              className={`md:hidden ${isScrolled ? 'text-foreground' : 'text-white'} hover:bg-white/20`}
+              className="md:hidden text-foreground hover:bg-white/20"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -104,7 +102,7 @@ export const Header = () => {
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className={`block w-full text-left font-medium text-foreground hover:text-confidence-blue transition-colors scroll-reveal stagger-${index + 1}`}
+                  className={`block w-full text-left font-medium text-gray-800 hover:text-confidence-blue transition-colors`}
                 >
                   {item.name}
                 </button>
